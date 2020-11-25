@@ -36,6 +36,8 @@ dependencies:
   google_fonts: ^1.1.1
   location_web: ^1.0.0
   geolocator: ^6.1.8
+  flutter_spinkit: ^4.1.2+1
+  sleek_circular_slider: ^1.2.0+web
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +59,10 @@ flutter:
   - .env
   - assets/
   - assets/images/load.png
+  - assets/images/Love.png
+  - assets/images/Cry.png
+  - assets/images/Satisfactory.png
+  - assets/images/Worst.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -1,13 +1,16 @@
 import 'dart:ffi';
 
+import 'package:Tipex/calculator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:Tipex/globals.dart' as globals;
 
 void main() async {
   await DotEnv().load(".env");
@@ -221,7 +224,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                   star =
                                       "${res["restaurant"]["user_rating"]["aggregate_rating"]}";
                                   var finalRatings = double.parse(star);
-                                  print(finalRatings);
+                                  globals.rating = finalRatings;
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => calculator()));
+                                  searchController.clear();
+                                  searchRes(searchController.text);
                                 },
                                 child: Padding(
                                   padding:
@@ -239,13 +248,23 @@ class _MyHomePageState extends State<MyHomePage> {
                                           )
                                         : CircleAvatar(
                                             radius: 30.0,
-                                            backgroundImage: AssetImage("assets/images/load.png"),
+                                            backgroundImage: AssetImage(
+                                                "assets/images/load.png"),
                                             backgroundColor: Colors.transparent,
                                           ),
                                     // leading: Image.network(res["restaurant"]["featured_image"]),
-                                    title: Text(res["restaurant"]["name"], style: GoogleFonts.openSans(textStyle: TextStyle(fontWeight: FontWeight.w600)),),
-                                    subtitle: Text(res["restaurant"]["location"]
-                                        ["address"], style: GoogleFonts.openSans(textStyle: TextStyle(fontWeight: FontWeight.w400)),),
+                                    title: Text(
+                                      res["restaurant"]["name"],
+                                      style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.w600)),
+                                    ),
+                                    subtitle: Text(
+                                      res["restaurant"]["location"]["address"],
+                                      style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.w400)),
+                                    ),
                                     // trailing: Text(
                                     //     "${res["restaurant"]["user_rating"]["aggregate_rating"]} stars"),
                                   ),
@@ -254,7 +273,26 @@ class _MyHomePageState extends State<MyHomePage> {
                             }).toList(),
                           ),
                         )
-                      : Text(""),
+                      : Container(
+                          padding: EdgeInsets.only(top: 50),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Align(
+                                alignment: FractionalOffset.center,
+                                child: Container(
+                                  width: 70.0,
+                                  height: 70.0,
+                                  child: SpinKitDoubleBounce(
+                                    color: Colors.indigo,
+                                    size: 30.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                 ],
               ),
             ),
