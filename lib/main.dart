@@ -17,14 +17,31 @@ void main() async {
   runApp(MyApp());
 }
 
+const int _blackPrimaryValue = 0xFF000000;
+
 class MyApp extends StatelessWidget {
+  static Map<int, Color> color = {
+    50: Color(0xFF000000),
+    100: Color(0xFF000000),
+    200: Color(0xFF000000),
+    300: Color(0xFF000000),
+    400: Color(0xFF000000),
+    500: Color(_blackPrimaryValue),
+    600: Color(0xFF000000),
+    700: Color(0xFF000000),
+    800: Color(0xFF000000),
+    900: Color(0xFF000000),
+  };
+  MaterialColor primeColor = MaterialColor(0xFF2B2A30, color);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        //primaryColor: Colors.black,
+        primarySwatch: primeColor,
+        canvasColor: Colors.transparent,
+
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'TIPEX'),
