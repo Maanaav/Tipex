@@ -243,9 +243,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             backgroundColor: Colors.transparent,
                                           ),
                                     // leading: Image.network(res["restaurant"]["featured_image"]),
-                                    title: Text(res["restaurant"]["name"]),
+                                    title: Text(res["restaurant"]["name"], style: GoogleFonts.openSans(textStyle: TextStyle(fontWeight: FontWeight.w600)),),
                                     subtitle: Text(res["restaurant"]["location"]
-                                        ["address"]),
+                                        ["address"], style: GoogleFonts.openSans(textStyle: TextStyle(fontWeight: FontWeight.w400)),),
                                     // trailing: Text(
                                     //     "${res["restaurant"]["user_rating"]["aggregate_rating"]} stars"),
                                   ),
