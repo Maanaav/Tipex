@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -48,6 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List _restaurants;
 
+  String myLat, myLon;
+
+  bool containerUp = false;
+
   final CameraPosition _initialPosition =
       CameraPosition(target: LatLng(20.5937, 78.9629), zoom: 3.5);
 
@@ -78,23 +83,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void searchRes(String res) async {
-    double lat = 19.1636;
-    double long = 72.8459;
     final response = await widget.dio.get(
         "https://developers.zomato.com/api/v2.1/search",
-        queryParameters: {"q": res, "lat": lat, "lon": long});
+        queryParameters: {"q": res, "lat": myLat, "lon": myLon});
     setState(() {
       _restaurants = response.data["restaurants"];
     });
   }
 
+  void _getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition();
+    myLat = "${position.latitude}";
+    myLon = "${position.longitude}";
+  }
+
   void initState() {
+    _getCurrentLocation();
     searchRes("");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    String star;
+    var heightContainer = MediaQuery.of(context).size.height / 1.7;
+    var alignContainer = Alignment.bottomCenter;
+
     return Scaffold(
       //resizeToAvoidBottomInset: false,
       body: Stack(
@@ -117,21 +131,47 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          //           Container(
+          //   height: 500,
+          //   alignment: Alignment.center,
+          //   child: IconButton(
+          //       icon: containerUp
+          //           ? Icon(Icons.arrow_circle_down_rounded)
+          //           : Icon(Icons.arrow_circle_up_rounded),
+          //       onPressed: () {
+          //         setState(() {
+          //           // containerUp
+          //           //     ? containerUp = false
+          //           //     : containerUp = true;
+          //           if (containerUp == false) {
+          //             print("object");
+          //             containerUp = true;
+          //             heightContainer = MediaQuery.of(context).size.height;
+          //             alignContainer = Alignment.topCenter;
+          //           } else {
+          //             containerUp = false;
+          //             heightContainer =
+          //                 MediaQuery.of(context).size.height / 1.7;
+          //             alignContainer = Alignment.bottomCenter;
+          //           }
+          //         });
+          //       }),
+          // ),
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: alignContainer,
             child: Container(
-              padding: EdgeInsets.all(20),
+              //padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40)),
                 color: Colors.white,
               ),
-              height: MediaQuery.of(context).size.height / 1.7,
+              height: heightContainer,
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    padding: EdgeInsets.only(top: 40, bottom: 20),
                     child: Text(
                       "Location",
                       style: GoogleFonts.lato(
@@ -141,44 +181,75 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontWeight: FontWeight.w900)),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, .1),
-                              blurRadius: 10,
-                              offset: Offset(0, 5))
-                        ]),
-                    child: TextField(
-                      controller: searchController,
-                      onChanged: (value) {
-                        searchRes(searchController.text);
-                      },
-                      decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.my_location),
-                          hintText: "Where you eating at?",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.grey,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, .1),
+                                blurRadius: 10,
+                                offset: Offset(0, 5))
+                          ]),
+                      child: TextField(
+                        controller: searchController,
+                        onChanged: (value) {
+                          searchRes(searchController.text);
+                        },
+                        decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.my_location),
+                            hintText: "Where you eating at?",
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: InputBorder.none),
+                      ),
                     ),
                   ),
                   _restaurants != null
                       ? Expanded(
                           child: ListView(
                             children: _restaurants.map((res) {
-                              var star =
-                                  "${res["restaurant"]["user_rating"]["aggregate_rating"]}";
-                              return ListTile(
-                                title: Text(res["restaurant"]["name"]),
-                                subtitle: Text(
-                                    res["restaurant"]["location"]["address"]),
-                                trailing: Text(
-                                    "${res["restaurant"]["user_rating"]["aggregate_rating"]} staars"),
+                              return GestureDetector(
+                                onTap: () {
+                                  //print(res["restaurant"]["featured_image"]);
+                                  star =
+                                      "${res["restaurant"]["user_rating"]["aggregate_rating"]}";
+                                  var finalRatings = double.parse(star);
+                                  print(finalRatings);
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: ListTile(
+                                    leading: res["restaurant"]
+                                                ["featured_image"] !=
+                                            ""
+                                        ? CircleAvatar(
+                                            radius: 30.0,
+                                            backgroundImage: NetworkImage(
+                                                res["restaurant"]
+                                                    ["featured_image"]),
+                                            backgroundColor: Colors.transparent,
+                                          )
+                                        : CircleAvatar(
+                                            radius: 30.0,
+                                            backgroundImage: AssetImage("assets/images/load.png"),
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                    // leading: Image.network(res["restaurant"]["featured_image"]),
+                                    title: Text(res["restaurant"]["name"]),
+                                    subtitle: Text(res["restaurant"]["location"]
+                                        ["address"]),
+                                    // trailing: Text(
+                                    //     "${res["restaurant"]["user_rating"]["aggregate_rating"]} stars"),
+                                  ),
+                                ),
                               );
                             }).toList(),
                           ),
