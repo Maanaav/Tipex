@@ -12,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:Tipex/globals.dart' as globals;
-import 'package:splashscreen/splashscreen.dart';
+import 'package:show_up_animation/show_up_animation.dart';
 
 void main() async {
   await DotEnv().load(".env");
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List _restaurants;
 
-  String myLat, myLon;
+  //String myLat, myLon;
 
   bool containerUp = false;
 
@@ -105,23 +105,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void searchRes(String res) async {
-    final response = await widget.dio.get(
-        "https://developers.zomato.com/api/v2.1/search",
-        queryParameters: {"q": res, "lat": myLat, "lon": myLon});
+    final response = await widget.dio
+        .get("https://developers.zomato.com/api/v2.1/search", queryParameters: {
+      "q": res,
+      "lat": globals.myLat,
+      "lon": globals.myLong
+    });
     setState(() {
       _restaurants = response.data["restaurants"];
     });
   }
 
-  void _getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition();
-    myLat = "${position.latitude}";
-    myLon = "${position.longitude}";
-  }
+  // void _getCurrentLocation() async {
+  //   Position position = await Geolocator.getCurrentPosition();
+  //   myLat = "${position.latitude}";
+  //   myLon = "${position.longitude}";
+  // }
 
   void initState() {
-    _getCurrentLocation();
+    //_getCurrentLocation();
     searchRes("");
+    print(globals.myLat);
+    print(globals.myLong);
     super.initState();
   }
 
@@ -235,61 +240,72 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   _restaurants != null
                       ? Expanded(
-                          child: ListView(
-                            children: _restaurants.map((res) {
-                              return GestureDetector(
-                                onTap: () {
-                                  //print(res["restaurant"]["featured_image"]);
-                                  star =
-                                      "${res["restaurant"]["user_rating"]["aggregate_rating"]}";
-                                  var finalRatings = double.parse(star);
-                                  globals.rating = finalRatings;
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => calculator()));
-                                  searchController.clear();
-                                  searchRes(searchController.text);
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: ListTile(
-                                    leading: res["restaurant"]
-                                                ["featured_image"] !=
-                                            ""
-                                        ? CircleAvatar(
-                                            radius: 30.0,
-                                            backgroundImage: NetworkImage(
-                                                res["restaurant"]
-                                                    ["featured_image"]),
-                                            backgroundColor: Colors.transparent,
-                                          )
-                                        : CircleAvatar(
-                                            radius: 30.0,
-                                            backgroundImage: AssetImage(
-                                                "assets/images/load.png"),
-                                            backgroundColor: Colors.transparent,
-                                          ),
-                                    // leading: Image.network(res["restaurant"]["featured_image"]),
-                                    title: Text(
-                                      res["restaurant"]["name"],
-                                      style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                              fontWeight: FontWeight.w600)),
+                          child: ShowUpAnimation(
+                            delayStart: Duration(seconds: 1),
+                            animationDuration: Duration(seconds: 1),
+                            curve: Curves.bounceIn,
+                            direction: Direction.vertical,
+                            offset: 0.5,
+                            child: ListView(
+                              children: _restaurants.map((res) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    //print(res["restaurant"]["featured_image"]);
+                                    star =
+                                        "${res["restaurant"]["user_rating"]["aggregate_rating"]}";
+                                    var finalRatings = double.parse(star);
+                                    globals.rating = finalRatings;
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                calculator()));
+                                    searchController.clear();
+                                    searchRes(searchController.text);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: ListTile(
+                                      leading: res["restaurant"]
+                                                  ["featured_image"] !=
+                                              ""
+                                          ? CircleAvatar(
+                                              radius: 30.0,
+                                              backgroundImage: NetworkImage(
+                                                  res["restaurant"]
+                                                      ["featured_image"]),
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                            )
+                                          : CircleAvatar(
+                                              radius: 30.0,
+                                              backgroundImage: AssetImage(
+                                                  "assets/images/load.png"),
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                            ),
+                                      // leading: Image.network(res["restaurant"]["featured_image"]),
+                                      title: Text(
+                                        res["restaurant"]["name"],
+                                        style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.w600)),
+                                      ),
+                                      subtitle: Text(
+                                        res["restaurant"]["location"]
+                                            ["address"],
+                                        style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.w400)),
+                                      ),
+                                      // trailing: Text(
+                                      //     "${res["restaurant"]["user_rating"]["aggregate_rating"]} stars"),
                                     ),
-                                    subtitle: Text(
-                                      res["restaurant"]["location"]["address"],
-                                      style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                              fontWeight: FontWeight.w400)),
-                                    ),
-                                    // trailing: Text(
-                                    //     "${res["restaurant"]["user_rating"]["aggregate_rating"]} stars"),
                                   ),
-                                ),
-                              );
-                            }).toList(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         )
                       : Container(

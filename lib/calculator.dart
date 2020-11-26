@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:Tipex/globals.dart' as globals;
@@ -94,14 +95,13 @@ class _calculatorState extends State<calculator> {
         // key: _scaffoldKey,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Center(
-            child: Text(
-              "Tipex",
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(fontSize: 23),
-              ),
-            ),
-          ),
+          title: Center(child: Image.asset("assets/icon/darkTipexIcon.png", height: 35,)),
+            // child: Text(
+            //   "Tipex",
+            //   style: GoogleFonts.lato(
+            //     textStyle: TextStyle(fontSize: 23),
+            //   ),
+            // ),
           flexibleSpace:
               Container(decoration: BoxDecoration(color: Colors.black)),
         ),
@@ -158,6 +158,7 @@ class _calculatorState extends State<calculator> {
                                           offset: Offset(0, 2))
                                     ]),
                                 child: TextField(
+                                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                                   keyboardType: TextInputType.number,
                                   controller: billController,
                                   style: GoogleFonts.montserrat(
