@@ -114,7 +114,7 @@ class _calculatorState extends State<calculator> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -134,16 +134,18 @@ class _calculatorState extends State<calculator> {
                           child: Text(
                             "Bill amount",
                             style: GoogleFonts.lato(
-                                textStyle: TextStyle(fontSize: 18),
+                                textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                 color: Colors.grey),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width / 1.8,
+                                width: MediaQuery.of(context).size.width / 1.7,
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -194,58 +196,68 @@ class _calculatorState extends State<calculator> {
                       Positioned(
                         left: MediaQuery.of(context).size.width / 3.5,
                         child: Container(
-                            padding: EdgeInsets.all(20),
-                            child: Expanded(
-                              child: SleekCircularSlider(
-                                max: 100,
-                                appearance: CircularSliderAppearance(
-                                    angleRange: 120,
-                                    customWidths: CustomSliderWidths(
-                                        progressBarWidth: 30),
-                                    size: MediaQuery.of(context).size.width,
-                                    customColors: CustomSliderColors(
-                                        trackColor: Colors.white,
-                                        dotColor: Colors.white,
-                                        progressBarColor: Colors.black,
-                                        // progressBarColors: [
-                                        //   Colors.green,
-                                        //   Colors.yellow,
-                                        //   Colors.red,
-                                        // ],
-                                        hideShadow: true)),
-                                initialValue: 60,
-                                onChange: (double value) {
-                                  setState(() {
-                                    //print(globals.yourRating);
-                                    globals.yourRating = value;
-                                  });
+                          padding: EdgeInsets.all(20),
+                          child: SleekCircularSlider(
+                            max: 100,
+                            appearance: CircularSliderAppearance(
+                                angleRange: 120,
+                                customWidths:
+                                    CustomSliderWidths(progressBarWidth: 30),
+                                size: MediaQuery.of(context).size.width,
+                                customColors: CustomSliderColors(
+                                    trackColor: Colors.white,
+                                    dotColor: Colors.white,
+                                    progressBarColor: Colors.black,
+                                    // progressBarColors: [
+                                    //   Colors.green,
+                                    //   Colors.yellow,
+                                    //   Colors.red,
+                                    // ],
+                                    hideShadow: true)),
+                            initialValue: 60,
+                            onChange: (double value) {
+                              setState(() {
+                                //print(globals.yourRating);
+                                globals.yourRating = value;
+                              });
 
-                                  //print(value);
-                                },
-                                onChangeStart: (double startValue) {
-                                  //print(startValue);
-                                },
-                                onChangeEnd: (double endValue) {
-                                  // ucallback providing an ending value (when a pan gesture ends)
-                                },
-                                innerWidget: (double value) {
-                                  // use your custom widget inside the slider (gets a slider value from the callback)
-                                },
-                              ),
-                            )),
+                              //print(value);
+                            },
+                            onChangeStart: (double startValue) {
+                              //print(startValue);
+                            },
+                            onChangeEnd: (double endValue) {
+                              // ucallback providing an ending value (when a pan gesture ends)
+                            },
+                            innerWidget: (double value) {
+                              // use your custom widget inside the slider (gets a slider value from the callback)
+                            },
+                          ),
+                        ),
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width / 2,
                         top: MediaQuery.of(context).size.height / 8,
                         child: Container(
                           child: globals.yourRating < 30
-                              ? Image.asset("assets/images/Worst.png")
+                              ? Image.asset(
+                                  "assets/images/Worst.png",
+                                  height: 170,
+                                )
                               : globals.yourRating < 50
-                                  ? Image.asset("assets/images/Cry.png")
+                                  ? Image.asset(
+                                      "assets/images/Satisfactory.png",
+                                      height: 170,
+                                    )
                                   : globals.yourRating < 70
                                       ? Image.asset(
-                                          "assets/images/Satisfactory.png")
-                                      : Image.asset("assets/images/Love.png"),
+                                          "assets/images/Good.png",
+                                          height: 170,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/Love.png",
+                                          height: 170,
+                                        ),
                         ),
                       ),
                       Positioned(
@@ -320,7 +332,7 @@ class _calculatorState extends State<calculator> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                padding: EdgeInsets.only(left: 10),
                                 child: Container(
                                   width: 70,
                                   height: 70,
@@ -383,121 +395,125 @@ class _calculatorState extends State<calculator> {
         context: context,
         builder: (context) {
           return Container(
-            height: MediaQuery.of(context).size.height / 3,
             padding: EdgeInsets.all(20),
+            height: MediaQuery.of(context).size.height / 3,
             //color: Colors.transparent,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40), topRight: Radius.circular(40)),
               color: Colors.white,
             ),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Total bill",
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                  style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 100),
-                          fontSize: 30,
-                          fontWeight: FontWeight.w900)),
-                ),
-                Text(
-                  "₹" + totalBill.toString(),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 50,
-                          fontWeight: FontWeight.w900)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          children: <Widget>[
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width / 3),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Bill",
-                                    overflow: TextOverflow.fade,
-                                    maxLines: 1,
-                                    style: GoogleFonts.lato(
-                                        textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 100),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w900)),
-                                  ),
-                                  Text(
-                                    myBill.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: GoogleFonts.lato(
-                                        textStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.w600)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Container(
-                              width: 0.5,
-                              height: 50,
+            child: ListView(
+              children: [
+                Column(
+                  children: <Widget>[
+                    Text(
+                      "Total bill",
+                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      style: GoogleFonts.lato(
+                          textStyle: TextStyle(
                               color: Color.fromRGBO(0, 0, 0, 100),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width / 3),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Tip",
-                                    overflow: TextOverflow.fade,
-                                    maxLines: 1,
-                                    style: GoogleFonts.lato(
-                                        textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 100),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w900)),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w900)),
+                    ),
+                    Text(
+                      "₹" + totalBill.toString(),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 50,
+                              fontWeight: FontWeight.w900)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              children: <Widget>[
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width / 3),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        "Bill",
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                                color: Color.fromRGBO(0, 0, 0, 100),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w900)),
+                                      ),
+                                      Text(
+                                        myBill.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w600)),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    tip.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: GoogleFonts.lato(
-                                        textStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.w600)),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Container(
+                                  width: 0.5,
+                                  height: 50,
+                                  color: Color.fromRGBO(0, 0, 0, 100),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width / 3),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        "Tip",
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                                color: Color.fromRGBO(0, 0, 0, 100),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w900)),
+                                      ),
+                                      Text(
+                                        tip.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w600)),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
+                    )
+                  ],
+                ),
               ],
             ),
           );

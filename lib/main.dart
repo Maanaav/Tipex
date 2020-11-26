@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:Tipex/calculator.dart';
+import 'package:Tipex/load.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:Tipex/globals.dart' as globals;
+import 'package:splashscreen/splashscreen.dart';
 
 void main() async {
   await DotEnv().load(".env");
@@ -44,7 +46,7 @@ class MyApp extends StatelessWidget {
 
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'TIPEX'),
+      home: load(),
     );
   }
 }
