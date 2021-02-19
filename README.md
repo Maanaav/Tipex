@@ -9,6 +9,10 @@ Don't know how to tip. No problem, TIPEX is all about making tipping easy and ac
 <h6>FUN FACT: DON’T LEAVE YOUR SERVER YOUR NUMBER WITHOUT TIPPING. THAT’S JUST EMBARRASSING!😆
 
 # Screenshots
+<p align = "center">
+  <img src="https://github.com/Maanaav/Tipex/blob/main/assets/images/1.png" width="800" />
+  <img src="https://github.com/Maanaav/Tipex/blob/main/assets/images/2.png" width="800" />
+</p>
 
 # License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/Maanaav/Tipex/blob/main/LICENSE) file for details.
