@@ -13,3 +13,4 @@ Don't know how to tip. No problem, TIPEX is all about making tipping easy and ac
 # UI Demos
 
 # License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Maanaav/Tipex/blob/main/LICENSE) file for details.
