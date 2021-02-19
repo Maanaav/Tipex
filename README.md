@@ -1,16 +1,14 @@
-# Tipex
+<p align = "center">
+  <img src="https://github.com/Maanaav/Tipex/blob/main/assets/icon/TipexIcon.png" width="300" />
+</p>
 
-A new Flutter project.
+# About
+Waiters are required to tip out at the end of the shift. This means that servers give a percentage of their tips to other employees. Imagine serving for a five-hour shift and not receiving any tips.
+Don't know how to tip. No problem, TIPEX is all about making tipping easy and accurate. Some people follow the standard 15 – 20 percent tip, but others tip based on performance. TIPEX calculates tips based on your review and reviews of the restaurant on Zomato.
 
-## Getting Started
+<h6>FUN FACT: DON’T LEAVE YOUR SERVER YOUR NUMBER WITHOUT TIPPING. THAT’S JUST EMBARRASSING!😆
 
-This project is a starting point for a Flutter application.
+# Screenshots
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Maanaav/Tipex/blob/main/LICENSE) file for details.
