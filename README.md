@@ -12,6 +12,7 @@ Don't know how to tip. No problem, TIPEX is all about making tipping easy and ac
 To run the app on your device, do the following:
 - [Install flutter](https://flutter.dev/docs/get-started/install) by following the instructions on their website.
 - Generate a [Zomato key](https://www.zomato.com/404.php) and place your key in .env file with `ZOMATO_API_KEY = YOUR_KEY`
+- Generate a [Google Key](https://pub.dev/packages/google_maps_flutter) and place your key in `Tipex/android/app/src/main/AndroidManifest.xml`
 
 # Screenshots
 <p align = "center">
