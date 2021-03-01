@@ -36,11 +36,11 @@ class _loadState extends State<load> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xffF9F7F4),
+      color: Colors.black,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset("assets/images/waiter.gif"),
+          Image.asset("assets/icon/darkTipexIcon.png", height: 150, width: 150,),
         ],
       ),
       // seconds: 5,
